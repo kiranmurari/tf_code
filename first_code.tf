@@ -1,9 +1,19 @@
-provider "aws" {
-  profile = "default"
-  region  = "us-west"
+terraform {
+  required_providers {
+    kubernetes = {
+      source  = "hashicorp/kubernetes"
+      version = ">= 2.0.0"
+    }
+  }
 }
 
-resource "aws_s3_bucket" "tf_course" {
-  bucket = "tf-course-02062021"
-  acl    = "private"
+provider "kubernetes" {
+  config_path = "~/.kube/config"
 }
+
+resource "kubernetes_namespace" "test" {
+  metadata {
+    name = "nginx"
+  }
+}
+
